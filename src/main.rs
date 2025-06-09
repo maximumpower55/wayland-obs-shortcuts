@@ -38,12 +38,20 @@ impl Shortcut {
         let client = Client::connect(ip, port, password).await?;
 
         match self {
-            Shortcut::ToggleReplayBuffer => client.replay_buffer().toggle().await,
-            Shortcut::SaveReplayBuffer => client.replay_buffer().toggle().await,
+            Shortcut::ToggleReplayBuffer => {
+                client.replay_buffer().toggle().await?;
+            }
+            Shortcut::SaveReplayBuffer => {
+                client.replay_buffer().save().await?;
+            }
 
-            Shortcut::ToggleRecord => client.recording().toggle().await,
-            Shortcut::ToggleRecordPause => client.recording().toggle_pause().await,
-        }?;
+            Shortcut::ToggleRecord => {
+                client.recording().toggle().await?;
+            }
+            Shortcut::ToggleRecordPause => {
+                client.recording().toggle_pause().await?;
+            }
+        };
 
         Ok(())
     }
